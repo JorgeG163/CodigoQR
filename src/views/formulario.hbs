@@ -1,0 +1,43 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+    <style type="text/css">
+      /* Estilos CSS aquí */
+
+    </style>
+
+    <div class="card-body">
+      <p>Ingrese su formulario aquí</p>
+      <form action="/images" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre" value="{{nombre}}">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="apellido" placeholder="Apellido" value="{{apellido}}">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="programa" placeholder="Programa (Ej: Ingeniería electrónica)" value="{{programa}}">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="coordenadas" placeholder="Coordenadas (Ej: 9.31520305667501, -75.3884118779454)" value="{{coordenadas}}">
+        </div>
+        <div class="form-group">
+          <label for="tipoArbol">Tipo de árbol</label>
+          <select class="form-control" name="tipoArbol">
+            <option value="Guanabana">Guanábana</option>
+            <option value="Pera">Pera</option>
+            <option value="Mango">Mango</option>
+            <option value="Anón">Anón</option>
+            <option value="Guanacaste">Guanacaste</option>
+          </select>
+        </div>     
+         <div class="form-group">
+          <label for="arbolFoto">Foto del árbol</label>
+          <input type="file" id="uploadImg" name="image" required>
+         </div>
+        <button class="btn btn-primary btn-block">
+          Registrar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

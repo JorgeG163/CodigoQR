@@ -1,5 +1,3 @@
-
-
 const indexCtrl = {};
 
 indexCtrl.renderIndex = (req, res) => {
@@ -13,4 +11,26 @@ indexCtrl.renderAbout = (req, res) => {
 indexCtrl.renderHome = (req, res) => {
   res.render('home');
 };
+
+indexCtrl.renderInfo = (req, res) => {
+  res.render('info');
+};
+
+indexCtrl.renderMapa = (req, res) => {
+  res.render('mapa');
+};
+
+indexCtrl.renderFotos = (req, res) => {
+  res.render('fotos');
+};
+
+indexCtrl.renderFormulario= (req, res) => {
+  res.render('formulario');
+};
+
+
+
+
+
+
 module.exports = indexCtrl;

@@ -1,0 +1,175 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+    
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+  <style type="text/css">
+
+</style>
+
+<!-- contenedor de grafica -->
+
+
+<style type="text/css">
+
+        #outer-container585 {
+        display: flex;
+        justify-content: center;
+    }
+
+    #inner-container585 {
+        width: 500px;
+        margin-left: 20px;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+        #container585 {
+        height: 200px;
+    }
+
+</style>
+
+
+  <div id="outer-container585">
+  <div id="inner-container585">
+    <div id="container585"></div>
+  </div>
+  <div id="datos"></div> 
+</div>
+
+    
+<script>
+  anychart.onDocumentReady(function () {
+    var chart = anychart.column();
+    chart.animation(true);
+    chart.title('Numero de árboles clasificados por especie');
+
+    function obtenerDatos() {
+      $.ajax({
+        url: '/datos',
+        method: 'GET',
+        success: function(response) {
+          actualizarGrafica(response);
+        },
+        error: function(error) {
+          console.error(error);
+        }
+      });
+    }
+
+
+    function obtenerSummerAll() {
+      $.ajax({
+        url: '/summerImgAll',
+        method: 'GET',
+        dataType: "json",
+        success: function(response) {
+           console.log("----------------------------------- "+response)
+        },
+        error: function(error) {
+          console.error(error);
+        }
+      });
+    }
+
+
+    function actualizarGrafica(datos) {
+      chart.removeSeries(0); // Elimina la serie existente antes de agregar una nueva
+     
+      datos.sort(function(a, b) {
+        // Ordena los datos por el valor de X en orden ascendente
+        return a[0].localeCompare(b[0]);
+      });
+
+      var series = chart.column(datos);
+
+
+
+      series.tooltip().titleFormat('{%X}');
+
+      series
+        .tooltip()
+        .position('center-top')
+        .anchor('center-bottom')
+        .offsetX(0)
+        .offsetY(5);
+      chart.yScale().minimum(0);
+      chart.tooltip().positionMode('point');
+      chart.interactivity().hoverMode('by-x');
+      chart.xAxis().title('Árboles');
+      chart.yAxis().title('Cantidad');
+      chart.container('container585');
+      chart.background().enabled(false);
+      chart.draw();
+    }
+
+    obtenerDatos();
+   // obtenerSummerAll();
+
+    setInterval(obtenerDatos, 5000);
+  });
+</script>
+
+
+
+
+
+<div id="outer-container584">
+    <div id="inner-container584">
+        <div id="container584"></div>
+    </div>
+</div>
+
+<!-- contenedor de usuarios -->
+
+<style type="text/css">
+
+  #users-container {
+    background-color: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #users-container h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  #users-container p {
+    color: #777;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+</style>
+
+<div id="users-container">
+  <h2>Número total de fotos registradas</h2>
+  <p id="total-users"></p>
+</div>
+
+
+
+
+
+  </div>
+</div>
+

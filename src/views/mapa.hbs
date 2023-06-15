@@ -1,0 +1,92 @@
+<head>
+  <title>{{ Mapa }}</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+  <style type="text/css">
+    .content-wrapper {
+      padding: 20px;
+    }
+
+    .content-wrapper h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .content-wrapper p {
+      text-align: justify;
+      margin-bottom: 10px;
+    }
+
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  
+    .map-container {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .green-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #coordinates {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<div class="wrapper">
+  <div class="content-wrapper">
+    <div class="container">
+      <h2>Mapa</h2>
+      <p>En esta sección puedes visualizar un mapa satelital de nuestra institución. En la que podrás seleccionar el árbol y/o monumento que quieras ver, junto con sus características</p>
+      <div id="map" class="map-container"></div>
+      <div id="coordinates"></div>
+      <div class="button-container">
+        <a href="/formulario" class="green-button">Participa aquí</a>
+      </div>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+      <script>
+        
+        var map = L.map('map').setView([9.315190875310995, -75.38843647467054], 17);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var coordinatesDiv = document.getElementById('coordinates');
+
+        function updateCoordinates(e) {
+          coordinatesDiv.innerHTML = `Latitud: ${e.latlng.lat.toFixed(6)}, Longitud: ${e.latlng.lng.toFixed(6)}`;
+        }
+
+        map.on('mousemove', updateCoordinates);
+
+        var markerCoordinates = [9.315141, -75.388312];
+        var marker = L.marker(markerCoordinates).addTo(map);
+
+        
+
+
+      </script>
+    </div>
+  </div>
+</div>

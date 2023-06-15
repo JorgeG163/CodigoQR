@@ -1,0 +1,198 @@
+<div class="wrapper">
+
+  
+  <div class="content-wrapper">
+
+
+
+
+
+    <div class="route-container">
+    
+      <div class="text-container">
+        <h3>Información de la Ruta</h3>
+        <p class="text-info142">Aquí puedes encontrar información detallada sobre la ruta que te llevará a través de los árboles más destacados de nuestra universidad. Descubre su historia, características y mucho más.</p>
+      </div>
+
+      <div class="gallery-container">
+        <div class="gallery">
+          <img src="https://fondosmil.com/fondo/6646.jpg" alt="Imagen 1" class="active">
+          <img src="https://c4.wallpaperflare.com/wallpaper/324/1005/197/arboles-bosque-milenarios-naturaleza-wallpaper-preview.jpg" alt="Imagen 2">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80" alt="Imagen 3">
+          <img src="https://images4.alphacoders.com/176/176236.jpg" alt="Imagen 4">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTN8fHxlbnwwfHx8fHw%3D%3D&w=1000&q=80" alt="Imagen 5">
+          <img src="https://www.xtrafondos.com/descargar.php?id=5769&resolucion=2560x1440" alt="Imagen 6">
+        </div>
+      </div>
+    </div>
+
+    <div>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Programa</th>
+      <th scope="col">Coordenadas</th>
+      <th scope="col">Tipo de arbol</th>
+      <th scope="col">Imagen</th>
+    </tr>
+  </thead>
+  <tbody class="contenidoInfo">
+  
+  </tbody>
+</table>
+</div>
+
+
+
+  </div>
+</div>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+<script>
+
+  
+ /* var images = [
+    "https://fondosmil.com/fondo/6646.jpg",
+    "https://c4.wallpaperflare.com/wallpaper/324/1005/197/arboles-bosque-milenarios-naturaleza-wallpaper-preview.jpg",
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80",
+    "https://images4.alphacoders.com/176/176236.jpg",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTN8fHxlbnwwfHx8fHw%3D%3D&w=1000&q=80",
+    "https://www.xtrafondos.com/descargar.php?id=5769&resolucion=2560x1440"
+  ];
+
+  var gallery = document.querySelector(".gallery");
+  var currentIndex = 0;
+
+  function changeImage() {
+    currentIndex++;
+    if (currentIndex >= images.length) {
+      currentIndex = 0;
+    }
+    gallery.querySelector(".active").classList.remove("active");
+    gallery.children[currentIndex].classList.add("active");
+  }*/
+  //setInterval(changeImage, 3000);
+
+/*
+ESTO ES PARA EL TRABAJO
+*/
+  anychart.onDocumentReady(function () {
+       function obtenerSummerAll() {
+      $.ajax({
+        url: '/getAll',
+        method: 'GET',
+        dataType: 'json',
+        success: function(response) {
+         
+          let datos="";
+          // $('.content-wrapper').html('<img src="{{response.archivocompleto}}" alt="Imagen 6">');
+          for(let item in response){
+              //datos+="<div class='route-container'><div class='text-container'><h3>Información sde la Ruta</h3><p class='text-info142'></p></div><div class='gallery-container'><div class='gallery'><img src='https://fondosmil.com/fondo/6646.jpg' alt='Imagen 1' class='active'></div></div></div>";
+               datos+="<tr><td>"+response[item].nombre+"</td><td>"+response[item].apellido+"</td><td>"+response[item].programa+"</td><td>"+response[item].coordenadas+"</td><td>"+response[item].tipoArbol+"</td><td><img src='http://localhost:4000/public/upload/"+response[item].archivocompleto+"' alt='Imagen 1'class='img-fluid'></td>";
+          }
+           $('.contenidoInfo').html(datos);
+
+    
+
+            
+          //let coche = JSON.parse(response);
+          
+        },
+        error: function(error) {
+           console.log("ERROR -------- "+error)
+          console.error(error);
+        }
+      });
+    }
+
+   obtenerSummerAll();
+
+    //setInterval(obtenerDatos, 5000);
+  });
+
+</script>
+    <style type="text/css">
+      .content-wrapper {
+        padding: 20px;
+      }
+
+      .content-wrapper h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .content-wrapper p {
+        text-align: justify;
+        margin-bottom: 10px;
+      }
+
+      .route-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        padding-right: 20px;
+        border-radius: 10px;
+        background-color: #f2f2f2;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .text-container:hover {
+        transform: scale(1.05);
+      }
+
+      .text-container h3 {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .text-info142 {
+        padding-left: 25px;
+      }
+
+      .gallery-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+      }
+
+      .gallery {
+        position: relative;
+        width: 300px; /* Ajustar el ancho del contenedor */
+        height: 200px;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+
+      .gallery img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .gallery img.active {
+        opacity: 1;
+      }
+    </style>
+
+
