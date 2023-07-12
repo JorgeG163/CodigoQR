@@ -13,8 +13,12 @@ const formularioSchema = new Schema({
     type: String,
     required: true
   },
-  coordenadas: {
-    type: String,
+  latitud: {
+    type: Number,
+    required: true
+  },
+  longitud: {
+    type: Number,
     required: true
   },
   tipoArbol: {

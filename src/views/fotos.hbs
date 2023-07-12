@@ -55,32 +55,6 @@
   <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
 <script>
 
-  
- /* var images = [
-    "https://fondosmil.com/fondo/6646.jpg",
-    "https://c4.wallpaperflare.com/wallpaper/324/1005/197/arboles-bosque-milenarios-naturaleza-wallpaper-preview.jpg",
-    "https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80",
-    "https://images4.alphacoders.com/176/176236.jpg",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTN8fHxlbnwwfHx8fHw%3D%3D&w=1000&q=80",
-    "https://www.xtrafondos.com/descargar.php?id=5769&resolucion=2560x1440"
-  ];
-
-  var gallery = document.querySelector(".gallery");
-  var currentIndex = 0;
-
-  function changeImage() {
-    currentIndex++;
-    if (currentIndex >= images.length) {
-      currentIndex = 0;
-    }
-    gallery.querySelector(".active").classList.remove("active");
-    gallery.children[currentIndex].classList.add("active");
-  }*/
-  //setInterval(changeImage, 3000);
-
-/*
-ESTO ES PARA EL TRABAJO
-*/
   anychart.onDocumentReady(function () {
        function obtenerSummerAll() {
       $.ajax({
@@ -96,10 +70,7 @@ ESTO ES PARA EL TRABAJO
                datos+="<tr><td>"+response[item].nombre+"</td><td>"+response[item].apellido+"</td><td>"+response[item].programa+"</td><td>"+response[item].coordenadas+"</td><td>"+response[item].tipoArbol+"</td><td><img src='http://localhost:4000/public/upload/"+response[item].archivocompleto+"' alt='Imagen 1'class='img-fluid'></td>";
           }
            $('.contenidoInfo').html(datos);
-
-    
-
-            
+         
           //let coche = JSON.parse(response);
           
         },

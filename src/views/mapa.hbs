@@ -1,8 +1,7 @@
 <head>
   <title>{{ Mapa }}</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin=""/>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <style type="text/css">
     .content-wrapper {
       padding: 20px;
@@ -29,25 +28,6 @@
       overflow: hidden;
     }
     
-    .button-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .green-button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    #coordinates {
-      text-align: center;
-      margin-top: 10px;
-    }
   </style>
 </head>
 
@@ -56,37 +36,212 @@
     <div class="container">
       <h2>Mapa</h2>
       <p>En esta sección puedes visualizar un mapa satelital de nuestra institución. En la que podrás seleccionar el árbol y/o monumento que quieras ver, junto con sus características</p>
-      <div id="map" class="map-container"></div>
-      <div id="coordinates"></div>
-      <div class="button-container">
-        <a href="/formulario" class="green-button">Participa aquí</a>
-      </div>
-      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin=""></script>
-      <script>
-        
-        var map = L.map('map').setView([9.315190875310995, -75.38843647467054], 17);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+       <div id="map" class="map-container"></div>
+      <div class="marker-position"></div> <!-- Agrega el elemento con la clase "marker-position" aquí -->
+      <script>
+        const map = L.map("map").setView([9.315161726912077, -75.38832306861879], 18);
+
+        // Capa de azulejos de OpenStreetMap
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var coordinatesDiv = document.getElementById('coordinates');
+        // Manejar el evento de clic en el mapa
+        map.on("click", function (e) {
+  const markerPlace = document.querySelector(".marker-position");
+  markerPlace.textContent = `Nueva posición del marcador: ${e.latlng.lat}, ${e.latlng.lng}`;
 
-        function updateCoordinates(e) {
-          coordinatesDiv.innerHTML = `Latitud: ${e.latlng.lat.toFixed(6)}, Longitud: ${e.latlng.lng.toFixed(6)}`;
-        }
+  const marker = L.marker(e.latlng, { draggable: true })
+    .addTo(map)
+    .bindPopup('<button type="button" class="remove">Eliminar marcador</button>')
+    .on("popupopen", function () {
+      const btn = document.querySelector(".remove");
+      btn.addEventListener("click", function () {
+        markerPlace.textContent = "Marcador eliminado";
+        map.removeLayer(marker);
+      });
+    })
+    .on("dragend", function () {
+      markerPlace.textContent = `Posición cambiada: ${this.getLatLng().lat}, ${this.getLatLng().lng}`;
+    });
 
-        map.on('mousemove', updateCoordinates);
+  // Enviar los datos del marcador al servidor
+  const data = {
+    lat: e.latlng.lat,
+    lng: e.latlng.lng
+  };
 
-        var markerCoordinates = [9.315141, -75.388312];
-        var marker = L.marker(markerCoordinates).addTo(map);
-
-        
-
-
+  fetch('/mapa', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+});
       </script>
     </div>
+
+<!-- contenedor de grafica -->
+
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+  <style type="text/css">
+
+</style>
+
+
+
+
+<style type="text/css">
+
+        #outer-container585 {
+        display: flex;
+        justify-content: center;
+    }
+
+    #inner-container585 {
+        width: 500px;
+        margin-left: 20px;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+        #container585 {
+        height: 200px;
+    }
+
+</style>
+
+
+  <div id="outer-container585">
+  <div id="inner-container585">
+    <div id="container585"></div>
+  </div>
+  <div id="datos"></div> 
+</div>
+
+    
+<script>
+  anychart.onDocumentReady(function () {
+    var chart = anychart.column();
+    chart.animation(true);
+    chart.title('Numero de árboles clasificados por especie');
+
+    function obtenerDatos() {
+      $.ajax({
+        url: '/datos',
+        method: 'GET',
+        success: function(response) {
+          actualizarGrafica(response);
+        },
+        error: function(error) {
+          console.error(error);
+        }
+      });
+    }
+
+
+    function obtenerSummerAll() {
+      $.ajax({
+        url: '/summerImgAll',
+        method: 'GET',
+        dataType: "json",
+        success: function(response) {
+           console.log("----------------------------------- "+response)
+        },
+        error: function(error) {
+          console.error(error);
+        }
+      });
+    }
+
+
+    function actualizarGrafica(datos) {
+      chart.removeSeries(0); // Elimina la serie existente antes de agregar una nueva
+     
+      datos.sort(function(a, b) {
+        // Ordena los datos por el valor de X en orden ascendente
+        return a[0].localeCompare(b[0]);
+      });
+
+      var series = chart.column(datos);
+
+
+
+      series.tooltip().titleFormat('{%X}');
+
+      series
+        .tooltip()
+        .position('center-top')
+        .anchor('center-bottom')
+        .offsetX(0)
+        .offsetY(5);
+      chart.yScale().minimum(0);
+      chart.tooltip().positionMode('point');
+      chart.interactivity().hoverMode('by-x');
+      chart.xAxis().title('Árboles');
+      chart.yAxis().title('Cantidad');
+      chart.container('container585');
+      chart.background().enabled(false);
+      chart.draw();
+    }
+
+    obtenerDatos();
+   // obtenerSummerAll();
+
+    setInterval(obtenerDatos, 5000);
+  });
+</script>
+
+
+
+</style>
+
+<!-- Final del contenedor de grafica -->
+
+<div id="codigo-qr"></div>
+
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+<style>
+  #codigo-qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 300px;
+    height: 300px;
+    background-color: white;
+  }
+</style>
+
+<script>
+  // Obtener la URL de la página actual
+  var url = window.location.href;
+
+  // Generar el código QR
+  var qrcode = new QRCode(document.getElementById("codigo-qr"), {
+    text: url,
+    width: 256,
+    height: 256
+  });
+</script>
+
+
+
   </div>
 </div>

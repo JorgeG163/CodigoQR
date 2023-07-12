@@ -29,18 +29,13 @@ formularioCtrl.SaveForm = async (req, res) => {
 
 
     let errors = [];
-    const { nombre, apellido, programa, coordenadas, tipoArbol,file } = req.body;
+    const { nombre, apellido, programa, latitud, longitud, tipoArbol, file } = req.body;
 
     if (nombre.length < 3) {
       errors.push({ text: "Ingrese un nombre válido" });
     }
     if (apellido.length < 3) {
       errors.push({ text: "Ingrese un apellido válido" });
-    }
-    const coordenadasPattern = /^[-]?(\d{1,3}\.\d{1,15}),\s?([-]?\d{1,3}\.\d{1,15})$/;
-
-    if (!coordenadasPattern.test(coordenadas)) {
-      errors.push({ text: "Ingrese un formato de coordenadas válido (Ej: 9.31520305667501, -75.3884118779454)" });
     }
 
     if (errors.length > 0) {
@@ -50,7 +45,8 @@ formularioCtrl.SaveForm = async (req, res) => {
         nombre,
         apellido,
         programa,
-        coordenadas,
+        latitud,
+        longitud,
         tipoArbol
       });
     } else {
@@ -59,8 +55,9 @@ formularioCtrl.SaveForm = async (req, res) => {
         nombre,
         apellido,
         programa,
-        coordenadas,
         tipoArbol,
+        latitud,
+        longitud,
         archivocompleto
       });
 
@@ -68,7 +65,7 @@ formularioCtrl.SaveForm = async (req, res) => {
       await nuevoFormulario.save();
 
       // Redirige a la página info.hbs
-      res.redirect('/info');
+      res.redirect('/mapa');
     }
   } catch (error) {
     // Maneja el error de guardar el formulario
@@ -79,23 +76,16 @@ formularioCtrl.SaveForm = async (req, res) => {
   }
 };
 
-
-
 formularioCtrl.formulario = async (req, res) => {
   try {
     let errors = [];
-    const { nombre, apellido, programa, coordenadas, tipoArbol } = req.body;
+    const { nombre, apellido, programa, latitud, longitud, tipoArbol } = req.body;
 
     if (nombre.length < 3) {
       errors.push({ text: "Ingrese un nombre válido" });
     }
     if (apellido.length < 3) {
       errors.push({ text: "Ingrese un apellido válido" });
-    }
-    const coordenadasPattern = /^[-]?(\d{1,3}\.\d{1,15}),\s?([-]?\d{1,3}\.\d{1,15})$/;
-
-    if (!coordenadasPattern.test(coordenadas)) {
-      errors.push({ text: "Ingrese un formato de coordenadas válido (Ej: 9.31520305667501, -75.3884118779454)" });
     }
 
     if (errors.length > 0) {
@@ -105,7 +95,8 @@ formularioCtrl.formulario = async (req, res) => {
         nombre,
         apellido,
         programa,
-        coordenadas,
+        latitud,
+        longitud,
         tipoArbol
       });
     } else {
@@ -114,7 +105,8 @@ formularioCtrl.formulario = async (req, res) => {
         nombre,
         apellido,
         programa,
-        coordenadas,
+        latitud,
+        longitud,
         tipoArbol
       });
 
@@ -122,7 +114,7 @@ formularioCtrl.formulario = async (req, res) => {
       await nuevoFormulario.save();
 
       // Redirige a la página info.hbs
-      res.redirect('/info');
+      res.redirect('/mapa');
     }
   } catch (error) {
     // Maneja el error de guardar el formulario
